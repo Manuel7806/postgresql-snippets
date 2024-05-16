@@ -1,0 +1,31 @@
+{
+  "name": "postgresql-snippets",
+  "displayName": "PostgreSQL Snippets",
+  "description": "Snippets for PostgreSQL database.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Manuel De La Rosa"
+  },
+  "engines": {
+    "vscode": "^1.89.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "keywords": [
+    "snippets",
+    "sql",
+    "postgres",
+    "PostgreSQL",
+    "PostgreSQL Snippets"
+  ],
+  "pricing": "Free",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "sql",
+        "path": "./snippets/snippets.code-snippets"
+      }
+    ]
+  }
+}

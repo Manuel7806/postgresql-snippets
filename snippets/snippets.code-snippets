@@ -1,0 +1,221 @@
+{
+  // DDL
+  "create database": {
+    "prefix": "create db",
+    "body": "CREATE DATABASE ${1: db_name};",
+    "description": "Creates a database"
+  },
+  "create table": {
+    "prefix": "create table",
+    "body": "CREATE TABLE IF NOT EXISTS ${1: table_name} (${2: table_columns});",
+    "description": "Creates a table"
+  },
+  "create schema": {
+    "prefix": "create schema",
+    "body": "CREATE SCHEMA IF NOT EXISTS ${1: schema_name};",
+    "description": "Creates a schema"
+  },
+  "create view": {
+    "prefix": "create view",
+    "body": [
+      "CREATE VIEW",
+      "\t${1:view_name}",
+      "AS SELECT",
+      "\t${2:column_names}",
+      "FROM",
+      "\t${3:table_name};"
+    ],
+    "description": "Creates a view"
+  },
+  "create index": {
+    "prefix": "create index",
+    "body": "CREATE INDEX IF NOT EXISTS ${1: index_name} ON ${2: table_name};",
+    "description": "Creates a named index"
+  },
+  "create trigger": {
+    "prefix": "create trigger",
+    "body": [
+      "CREATE TRIGGER",
+      "\t${1:trigger_name}",
+      "${2:[BEFORE | AFTER]} ${3:event} ON",
+      "\t${4:table_name}",
+      "FOR EACH ${5:[ROW | STATEMENT]}",
+      "EXECUTE FUNCTION ${6:func_name};"
+    ],
+    "description": "Creates trigger"
+  },
+  "create enum": {
+    "prefix": "create enum",
+    "body": "CREATE TYPE ${1:enum_name} AS ENUM (${2:enum_values});",
+    "description": "Creates ENUM"
+  },
+  // Data Types
+  "smallint": {
+    "prefix": ["smallint", "small int"],
+    "body": "SMALLINT",
+    "description": "Adds SMALLINT data type"
+  },
+  "integer": {
+    "prefix": "integer",
+    "body": "INTEGER",
+    "description": "Adds INTEGER data type"
+  },
+  "bigint": {
+    "prefix": ["bigint", "big int"],
+    "body": "BIGINT",
+    "description": "Adds BIGINT data type"
+  },
+  "decimal": {
+    "prefix": "decimal",
+    "body": "DECIMAL(${1:precision}, ${2:scale})",
+    "description": "Adds DECIMAL data type"
+  },
+  "real": {
+    "prefix": "real",
+    "body": "REAL",
+    "description": "Adds REAL data type"
+  },
+  "double precision": {
+    "prefix": "double precision",
+    "body": "DOUBLE PRECISION",
+    "description": "Adds DOUBLE PRECISION data type"
+  },
+  "float": {
+    "prefix": "float",
+    "body": "FLOAT(${1:precision}",
+    "description": "Adds FLOAT data type"
+  },
+  "smallserial": {
+    "prefix": ["smallserial", "small serial"],
+    "body": "SMALLSERIAL",
+    "description": "Adds SMALLSERIAL data type"
+  },
+  "serial": {
+    "prefix": "serial",
+    "body": "SERIAL",
+    "description": "Adds SERIAL data type"
+  },
+  "bigserial": {
+    "prefix": ["bigserial", "big serial"],
+    "body": "BIGSERIAL",
+    "description": "Adds BIGSERIAL data type"
+  },
+  "varchar": {
+    "prefix": "varchar",
+    "body": "VARCHAR(${1:n)",
+    "description": "Adds VARCHAR data type"
+  },
+  "char": {
+    "prefix": "char",
+    "body": "CHAR(${1:n)",
+    "description": "Adds CHAR data type"
+  },
+  "text": {
+    "prefix": "text",
+    "body": "TEXT",
+    "description": "Adds TEXT data type"
+  },
+  "timestamp no time zone": {
+    "prefix": "timestamp without time zone",
+    "body": "TIMESTAMP",
+    "description": "Adds TIMESTAMP data type without time zone"
+  },
+  "timestamp with time zone": {
+    "prefix": "timestamp with time zone",
+    "body": "TIMESTAMP WITH TIME ZONE",
+    "description": "Adds TIMESTAMP WITH TIME ZONE data type"
+  },
+  "date": {
+    "prefix": "date",
+    "body": "DATE",
+    "description": "Adds DATE data type"
+  },
+  "time": {
+    "prefix": "time without time zone",
+    "body": "TIME",
+    "description": "Adds TIME data type without time zone"
+  },
+  "time with time zone": {
+    "prefix": "time with time zone",
+    "body": "TIME WITH TIME ZONE",
+    "description": "Adds TIME WITH TIME ZONE data type"
+  },
+  "boolean": {
+    "prefix": "boolean",
+    "body": "BOOLEAN",
+    "description": "Adds BOOLEAN data type"
+  },
+  // Constraints
+  "not null": {
+    "prefix": "not null",
+    "body": "NOT NULL",
+    "description": "Adds NOT NULL constraint"
+  },
+  "primary key": {
+    "prefix": "primary key",
+    "body": "PRIMARY KEY",
+    "description": "Creates a PRIMARY KEY"
+  },
+  "composite key": {
+    "prefix": "composite key",
+    "body": "PRIMARY KEY ({$1:column-1}, ${2:column-2}",
+    "description": "Creates a composite key"
+  },
+  "foreign key": {
+    "prefix": "foreign key",
+    "body": "REFERENCES ${1:column} (${2:referenced_column})",
+    "description": "Creates a FOREIGN KEY"
+  },
+  "check": {
+    "prefix": "check",
+    "body": "CHECK (${1:expression)}",
+    "description": "Creates a CHECK constraint"
+  },
+  "named check": {
+    "prefix": "named check",
+    "body": "CONSTRAINT ${1:name} CHECK ({$2:expression})",
+    "description": "Creates a named CHECK constraint"
+  },
+  "unique": {
+    "prefix": "unique",
+    "body": "UNIQUE",
+    "description": "Adds UNIQUE constraint"
+  },
+  "named unique": {
+    "prefix": "named unique",
+    "body": "CONSTRAINT ${1:name} UNIQUE",
+    "description": "Adds a named UNIQUE constraint"
+  },
+  // Modify Tables
+  "add column": {
+    "prefix": "add column",
+    "body": "ALTER TABLE ${1:table_name} ADD COLUMN ${2:column} ${3:data type};",
+    "description": "Adds a column to an existing table"
+  },
+  "drop colomn": {
+    "prefix": "drop column",
+    "body": ["ALTER TABLE", "\t${1:table_name}", "DROP COLUMN", "${2:column}"],
+    "description": "Drop a column from a table"
+  },
+  // DML
+  "select statement": {
+    "prefix": "select",
+    "body": ["SELECT", "\t${1: columns}", "FROM", "\t${2: table_name};"],
+    "description": "Select statement"
+  }
+  //   "varchar": {
+  //     "prefix": "varchar",
+  //     "body": "VARCHAR(${1: lenght})",
+  //     "description": "Create a varchar data type"
+  //   }
+  //   "select": {
+  //     "prefix": "SELECT",
+  //     "body": "SELECT ${1: columns} FROM ${2: table_name};",
+  //     "description": "A select statement"
+  //   },
+  //   "insert": {
+  //     "prefix": "INSERT",
+  //     "body": "INSERT INTO ${1: table_name} (${2: columns}) VALUES (${3: column_values});",
+  //     "description": "A insert statement"
+  //   },
+}
