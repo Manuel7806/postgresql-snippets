@@ -5,15 +5,49 @@
     "body": "CREATE DATABASE ${1:name};",
     "description": "Creates a database"
   },
-  "create table": {
-    "prefix": "create table",
-    "body": "CREATE TABLE IF NOT EXISTS ${1:name} (${2:columns});",
-    "description": "Creates a table"
+  "drop database": {
+    "prefix": "drop database",
+    "body": "DROP DATABASE IF EXISTS ${1:name};",
+    "description": "Drop a database"
+  },
+  "rename database": {
+    "prefix": "rename database",
+    "body": "ALTER DATABASE ${1:name} RENAME TO ${2:new_name};",
+    "description": "Change the name of a database"
+  },
+  "change database owner": {
+    "prefix": "change database owner",
+    "body": "ALTER DATABASE ${1:name} OWNER TO ${2:new_owner};"
   },
   "create schema": {
     "prefix": "create schema",
     "body": "CREATE SCHEMA IF NOT EXISTS ${1:schema_name};",
     "description": "Creates a schema"
+  },
+  "drop schema": {
+    "prefix": "drop schema",
+    "body": "DROP SCHEMA IF EXISTS ${1:name};",
+    "description": "Drop a shcema"
+  },
+  "rename schema": {
+    "prefix": "rename schema",
+    "body": "ALTER SCHEMA ${1:name} RENAME TO ${2:new_name};",
+    "description": "Rename a shcema"
+  },
+  "change schema owner": {
+    "prefix": "change schema owner",
+    "body": "ALTER SCHEMA ${1:name} OWNER TO ${2:new_owner};",
+    "description": "Change the schema owner"
+  },
+  "create table": {
+    "prefix": "create table",
+    "body": "CREATE TABLE IF NOT EXISTS ${1:name} (${2:columns});",
+    "description": "Creates a table"
+  },
+  "drop table": {
+    "prefix": "drop table",
+    "body": "DROP TABLE IF EXISTS ${1:name};",
+    "description": "Drop a table"
   },
   "create view": {
     "prefix": "create view",
@@ -27,10 +61,20 @@
     ],
     "description": "Creates a view"
   },
+  "drop view": {
+    "prefix": "drop view",
+    "body": "DROP VIEW IF EXISTS ${1:name};",
+    "description": "Drop a view"
+  },
   "create index": {
     "prefix": "create index",
     "body": "CREATE INDEX IF NOT EXISTS ${1:name} ON ${2:name};",
     "description": "Creates a named index"
+  },
+  "drop index": {
+    "prefix": "drop index",
+    "body": "DROP INDEX IF EXISTS ${1:name};",
+    "description": "Drop a index"
   },
   "create trigger": {
     "prefix": "create trigger",
@@ -44,10 +88,20 @@
     ],
     "description": "Creates trigger"
   },
+  "drop trigger": {
+    "prefix": "drop trigger",
+    "body": "DROP TRIGGER IF EXISTS ${1:name} ON ${2:name};",
+    "description": "Drop a trigger on a table"
+  },
   "create enum": {
     "prefix": "create enum",
     "body": "CREATE TYPE ${1:name} AS ENUM (${2:enum_values});",
     "description": "Creates ENUM"
+  },
+  "drop type": {
+    "prefix": "drop type",
+    "body": "DROP TYPE IF EXISTS ${1:name};",
+    "description": "Drop a type"
   },
   // Data Types
   "smallint": {
@@ -102,12 +156,12 @@
   },
   "varchar": {
     "prefix": "varchar",
-    "body": "VARCHAR(${1:n)",
+    "body": "VARCHAR(${1:n})",
     "description": "Adds VARCHAR data type"
   },
   "char": {
     "prefix": "char",
-    "body": "CHAR(${1:n)",
+    "body": "CHAR(${1:n})",
     "description": "Adds CHAR data type"
   },
   "text": {
@@ -156,24 +210,29 @@
     "body": "PRIMARY KEY",
     "description": "Creates a PRIMARY KEY"
   },
+  "primary key increment": {
+    "prefix": "primary key increment",
+    "body": "SERIAL PRIMARY KEY",
+    "description": "Creates a PRIMARY KEY with auto increment"
+  },
   "composite key": {
     "prefix": "composite key",
-    "body": "PRIMARY KEY ({$1:column-1}, ${2:column-2}",
+    "body": "PRIMARY KEY (${1:column-1}, ${2:column-2})",
     "description": "Creates a composite key"
   },
   "foreign key": {
     "prefix": "foreign key",
-    "body": "REFERENCES ${1:column} (${2:referenced_column})",
+    "body": "REFERENCES ${1:table_name} (${2:referenced_column})",
     "description": "Creates a FOREIGN KEY"
   },
   "check": {
     "prefix": "check",
-    "body": "CHECK (${1:expression)}",
+    "body": "CHECK (${1:expression})",
     "description": "Creates a CHECK constraint"
   },
   "named check": {
     "prefix": "named check",
-    "body": "CONSTRAINT ${1:name} CHECK ({$2:expression})",
+    "body": "CONSTRAINT ${1:name} CHECK (${2:expression})",
     "description": "Creates a named CHECK constraint"
   },
   "unique": {
@@ -231,6 +290,168 @@
     "prefix": "rename table",
     "body": "ALTER TABLE ${1:old_name} RENAME TO ${2:new_name};",
     "description": "Change a tables name"
-  }
+  },
+  // Database Management
+  "create role": {
+    "prefix": "create role",
+    "body": "CREATE ROLE ${1:name} WITH ${2:options};",
+    "description": "Create a new role"
+  },
+  "alter role": {
+    "prefix": "alter role",
+    "body": "ALTER ROLE ${1:name} WITH ${2:options},",
+    "description": "Alter a role"
+  },
+  "rename role": {
+    "prefix": "rename role",
+    "body": "ALTER ROLE ${1:name} RENAME TO ${2:new_name};",
+    "description": "Change the name of a role"
+  },
+  "drop role": {
+    "prefix": "drop role",
+    "body": "DROP ROLE IF EXISTS ${1:name};",
+    "description": "Drop a role"
+  },
+  "change table owner": {
+    "prefix": "change table owner",
+    "body": "ALTER TABLE ${1:name} OWNER TO ${2:role}",
+    "description": "Change the owner of a table"
+  },
+  "grant privileges": {
+    "prefix": "grant privileges",
+    "body": "GRANT ${1:privileges} ON ${2:name} TO ${3:role}",
+    "description": "Grant privileges on a table to a role"
+  },
+  "revoke privileges": {
+    "prefix": "revoke privileges",
+    "body": "REVOKE ${1:privileges} ON ${2:name} FROM ${3:role}"
+  },
   // DML
+  "select": {
+    "prefix": "select",
+    "body": ["SELECT", "\t${1:columns}", "FROM", "\t${2:name};"],
+    "description": "Simple select statement"
+  },
+  "select where": {
+    "prefix": "select where",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "WHERE",
+      "\t${3:column} = ${4:value};"
+    ],
+    "description": "Select...Where statement"
+  },
+  "select order by": {
+    "prefix": "select orderby",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "ORDER BY",
+      "\t${3:column};"
+    ],
+    "description": "Select...order by statement"
+  },
+  "select where order by": {
+    "prefix": "select where orderby",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "WHERE",
+      "\t${3:column} = ${4:value}",
+      "ORDER BY",
+      "\t${5:column} = ${6:value};"
+    ]
+  },
+  "select group by": {
+    "prefix": "select group by",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "GROUP BY",
+      "\t${3:column};"
+    ],
+    "description": "Select...group by statement"
+  },
+  "select where group by": {
+    "prefix": "select where group by",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "WHERE",
+      "\t${3:column} = ${4:value}",
+      "GROUP BY",
+      "${5:column};"
+    ],
+    "description": "Select...where...group by statement"
+  },
+  "select where group by having": {
+    "prefix": "select where group by having",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "WHERE",
+      "\t${3:column} = ${4:value}",
+      "GROUP BY",
+      "\t${5:column}",
+      "HAVING",
+      "\t${6:condition};"
+    ],
+    "description": "select...where...group by...having statement"
+  },
+  "select limit": {
+    "prefix": "select limit",
+    "body": [
+      "SELECT",
+      "\t${1:columns}",
+      "FROM",
+      "\t${2:name}",
+      "LIMIT ${3:amount};"
+    ],
+    "description": "Select a limited amount of data"
+  },
+  "insert": {
+    "prefix": "insert",
+    "body": [
+      "INSERT INTO",
+      "\t${1:name} (${2:columns})",
+      "VALUES",
+      "\t(${3:value});"
+    ],
+    "description": "Simple insert statement"
+  },
+  "update": {
+    "prefix": "update",
+    "body": [
+      "UPDATE",
+      "\t${1:name}",
+      "SET",
+      "\t${2:column} = ${3:value}",
+      "WHERE",
+      "\t${4:column} = ${5:value};"
+    ],
+    "description": "Simple update statement"
+  },
+  "delete": {
+    "prefix": "delete",
+    "body": [
+      "DELETE FROM",
+      "\t${1:name}",
+      "WHERE",
+      "\t${2:column} = ${3:value}"
+    ],
+    "description": "Delete statement"
+  }
 }
