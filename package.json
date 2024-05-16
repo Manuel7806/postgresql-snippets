@@ -12,6 +12,7 @@
   "categories": [
     "Snippets"
   ],
+  "icon": "icons/postgres-snippets-icon.png",
   "keywords": [
     "snippets",
     "sql",
