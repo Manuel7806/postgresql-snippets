@@ -12,6 +12,7 @@
   "categories": [
     "Snippets"
   ],
+  "license": "SEE LICENSE IN LICENSE.txt",
   "icon": "icons/postgres-snippets-icon.png",
   "keywords": [
     "snippets",
