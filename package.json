@@ -6,6 +6,7 @@
   "author": {
     "name": "Manuel De La Rosa"
   },
+  "publisher": "ManuelDeLaRosa",
   "engines": {
     "vscode": "^1.89.0"
   },
