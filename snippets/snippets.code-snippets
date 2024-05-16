@@ -2,51 +2,51 @@
   // DDL
   "create database": {
     "prefix": "create db",
-    "body": "CREATE DATABASE ${1: db_name};",
+    "body": "CREATE DATABASE ${1:name};",
     "description": "Creates a database"
   },
   "create table": {
     "prefix": "create table",
-    "body": "CREATE TABLE IF NOT EXISTS ${1: table_name} (${2: table_columns});",
+    "body": "CREATE TABLE IF NOT EXISTS ${1:name} (${2:columns});",
     "description": "Creates a table"
   },
   "create schema": {
     "prefix": "create schema",
-    "body": "CREATE SCHEMA IF NOT EXISTS ${1: schema_name};",
+    "body": "CREATE SCHEMA IF NOT EXISTS ${1:schema_name};",
     "description": "Creates a schema"
   },
   "create view": {
     "prefix": "create view",
     "body": [
       "CREATE VIEW",
-      "\t${1:view_name}",
+      "\t${1:name}",
       "AS SELECT",
-      "\t${2:column_names}",
+      "\t${2:columns}",
       "FROM",
-      "\t${3:table_name};"
+      "\t${3:name};"
     ],
     "description": "Creates a view"
   },
   "create index": {
     "prefix": "create index",
-    "body": "CREATE INDEX IF NOT EXISTS ${1: index_name} ON ${2: table_name};",
+    "body": "CREATE INDEX IF NOT EXISTS ${1:name} ON ${2:name};",
     "description": "Creates a named index"
   },
   "create trigger": {
     "prefix": "create trigger",
     "body": [
       "CREATE TRIGGER",
-      "\t${1:trigger_name}",
+      "\t${1:name}",
       "${2:[BEFORE | AFTER]} ${3:event} ON",
-      "\t${4:table_name}",
+      "\t${4:name}",
       "FOR EACH ${5:[ROW | STATEMENT]}",
-      "EXECUTE FUNCTION ${6:func_name};"
+      "EXECUTE FUNCTION ${6:name};"
     ],
     "description": "Creates trigger"
   },
   "create enum": {
     "prefix": "create enum",
-    "body": "CREATE TYPE ${1:enum_name} AS ENUM (${2:enum_values});",
+    "body": "CREATE TYPE ${1:name} AS ENUM (${2:enum_values});",
     "description": "Creates ENUM"
   },
   // Data Types
@@ -189,33 +189,48 @@
   // Modify Tables
   "add column": {
     "prefix": "add column",
-    "body": "ALTER TABLE ${1:table_name} ADD COLUMN ${2:column} ${3:data type};",
+    "body": "ALTER TABLE ${1:name} ADD COLUMN ${2:column} ${3:data type};",
     "description": "Adds a column to an existing table"
   },
   "drop colomn": {
     "prefix": "drop column",
-    "body": ["ALTER TABLE", "\t${1:table_name}", "DROP COLUMN", "${2:column}"],
+    "body": "ALTER TABLE ${1:name} DROP COLUMN ${2:column};",
     "description": "Drop a column from a table"
   },
-  // DML
-  "select statement": {
-    "prefix": "select",
-    "body": ["SELECT", "\t${1: columns}", "FROM", "\t${2: table_name};"],
-    "description": "Select statement"
+  "add constraint": {
+    "prefix": "add constraint",
+    "body": "ALTER TABLE ${1:name} ADD ${2:constraint};",
+    "description": "Adds a constraint to a column"
+  },
+  "drop constraint": {
+    "prefix": "drop constraint",
+    "body": "ALTER TABLE ${1:name} DROP CONSTRAINT ${2:name};",
+    "description": "Drop a constraint"
+  },
+  "change default": {
+    "prefix": "change default",
+    "body": "ALTER TABLE {$1:name} ALTER COLUMN ${2:column} SET DEFAULT ${3:value};",
+    "description": "Change the default value of a column"
+  },
+  "drop default": {
+    "prefix": "drop default",
+    "body": "ALTER TABLE ${1:name} ALTER COLUMN ${2:column} DROP DEFAULT",
+    "description": "Drop default value for column"
+  },
+  "change data type": {
+    "prefix": "change data type",
+    "body": "ALTER TABLE ${1:name} ALTER COLUMN ${2:column} TYPE ${3:type};",
+    "description": "Change a columns data type"
+  },
+  "rename column": {
+    "prefix": "rename column",
+    "body": "ALTER TABLE ${1:name} RENAME COLUMN ${2:old_column} TO ${3:new_column};",
+    "description": "Change a columns name"
+  },
+  "rename table": {
+    "prefix": "rename table",
+    "body": "ALTER TABLE ${1:old_name} RENAME TO ${2:new_name};",
+    "description": "Change a tables name"
   }
-  //   "varchar": {
-  //     "prefix": "varchar",
-  //     "body": "VARCHAR(${1: lenght})",
-  //     "description": "Create a varchar data type"
-  //   }
-  //   "select": {
-  //     "prefix": "SELECT",
-  //     "body": "SELECT ${1: columns} FROM ${2: table_name};",
-  //     "description": "A select statement"
-  //   },
-  //   "insert": {
-  //     "prefix": "INSERT",
-  //     "body": "INSERT INTO ${1: table_name} (${2: columns}) VALUES (${3: column_values});",
-  //     "description": "A insert statement"
-  //   },
+  // DML
 }
