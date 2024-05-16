@@ -19,6 +19,12 @@
     "PostgreSQL",
     "PostgreSQL Snippets"
   ],
+  "tags": [
+    "postgres",
+    "postgresql snippets",
+    "PostgreSQL Snippets",
+    "snippets"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Manuel7806/postgresql-snippets"
